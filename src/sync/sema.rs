@@ -22,6 +22,18 @@ impl Sema {
         }
     }
 
+    /// if `permits` is negative, it will call
+    /// `acquiren`, otherwise positive, call
+    /// `releasen`. Zero does nothing.
+    #[allow(clippy::comparison_chain)]
+    pub fn set(&self, permits: i32) {
+        if permits < 0 {
+            self.acquiren((-permits) as u32);
+        } else if permits > 0 {
+            self.releasen(permits as u32);
+        }
+    }
+
     pub fn acquiren(&self, permits: u32) {
         let permits = permits as i64;
         let mut g = self.m.lock();
