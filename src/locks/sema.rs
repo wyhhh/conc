@@ -15,7 +15,7 @@ impl Sema {
     }
 
     pub fn acquiren(&self, permits: u32) {
-		let permits = permits as i64;
+        let permits = permits as i64;
         let mut g = self.m.lock();
 
         while *g < permits {
@@ -34,7 +34,7 @@ impl Sema {
                 return;
             }
         }
-		
+
         self.cv.notify_all();
     }
 
