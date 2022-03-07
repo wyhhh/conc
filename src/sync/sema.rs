@@ -45,4 +45,8 @@ impl Sema {
     pub fn release(&self) {
         self.releasen(1);
     }
+
+    pub fn available(&self) -> i64 {
+        *self.m.lock()
+    }
 }
