@@ -1,3 +1,3 @@
-mod locks;
+mod sync;
 
-pub use locks::sema::Sema;
+pub use sync::sema::Sema;
