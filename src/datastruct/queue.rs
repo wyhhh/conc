@@ -2,6 +2,8 @@ use crate::BoundedBlockQueue;
 use parking_lot::Condvar;
 use parking_lot::Mutex;
 
+
+#[derive(Debug)]
 pub struct BoundedBlockQ<T> {
     m: Mutex<Vec<T>>,
     c: Condvar,
@@ -70,6 +72,12 @@ impl<T> BoundedBlockQueue<T> for BoundedBlockQ<T> {
 
     fn len(&self) -> usize {
         self.m.lock().len()
+    }
+}
+
+impl<T> Default for BoundedBlockQ<T> {
+    fn default() -> Self {
+		Self::new(20)
     }
 }
 

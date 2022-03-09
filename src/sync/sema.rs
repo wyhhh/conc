@@ -1,6 +1,7 @@
 use parking_lot::Condvar;
 use parking_lot::Mutex;
 
+#[derive(Default, Debug)]
 pub struct Sema {
     m: Mutex<i64>,
     cv: Condvar,

@@ -7,5 +7,7 @@ edition = "2021"
 
 [dependencies]
 parking_lot = "*"
+
+[dev-dependencies]
 rand = "*"
 crossbeam-utils = "*"
