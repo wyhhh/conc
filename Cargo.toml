@@ -7,3 +7,5 @@ edition = "2021"
 
 [dependencies]
 parking_lot = "*"
+rand = "*"
+crossbeam-utils = "*"

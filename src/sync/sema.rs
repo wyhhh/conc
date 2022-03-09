@@ -12,7 +12,7 @@ impl Sema {
         Self {
             m: Mutex::new(permits),
             cv: Condvar::new(),
-            // when new a sema, normally at
+            // When new a sema, normally at
             // one thread without sharing.
             // This one can be runtime value
             // but never changed again
@@ -22,9 +22,9 @@ impl Sema {
         }
     }
 
-    /// if `permits` is negative, it will call
-    /// `acquiren`, otherwise positive, call
-    /// `releasen`. Zero does nothing.
+    /// If `permits` is negative, it will call
+    /// [`Sema::acquiren`], otherwise positive, call
+    /// [`Sema::releasen`]. Zero does nothing.
     #[allow(clippy::comparison_chain)]
     pub fn set(&self, permits: i32) {
         if permits < 0 {
@@ -70,15 +70,15 @@ impl Sema {
         *self.m.lock()
     }
 
-    /// reset permits to original one
-    // because the origin value can't
+    /// Reset permits to original one
+    // Because the origin value can't
     // changed from first initialization
     // so we needn't use like AtomicI64
     pub fn reset(&self) {
         *self.m.lock() = self.origin;
     }
 
-    /// reset permits at runtime once
+    /// Reset permits at runtime once
     pub fn reset_permits(&self, permits: i64) {
         *self.m.lock() = permits;
     }
