@@ -1,10 +1,9 @@
 use crate::BoundedBlockQueue;
 use parking_lot::Condvar;
 use parking_lot::Mutex;
-use std::collections::VecDeque;
 
 pub struct BoundedBlockQ<T> {
-    m: Mutex<VecDeque<T>>,
+    m: Mutex<Vec<T>>,
     c: Condvar,
     init_cap: usize,
 }
@@ -12,7 +11,7 @@ pub struct BoundedBlockQ<T> {
 impl<T> BoundedBlockQueue<T> for BoundedBlockQ<T> {
     fn new(cap: usize) -> Self {
         Self {
-            m: Mutex::new(VecDeque::with_capacity(cap)),
+            m: Mutex::new(Vec::with_capacity(cap)),
             c: Condvar::new(),
             init_cap: cap,
         }
@@ -30,7 +29,7 @@ impl<T> BoundedBlockQueue<T> for BoundedBlockQ<T> {
 
             debug_assert!(q.len() < self.init_cap);
 
-            q.push_back(ele);
+            q.push(ele);
 
             // dropped lock
         }
@@ -59,7 +58,7 @@ impl<T> BoundedBlockQueue<T> for BoundedBlockQ<T> {
                 self.c.wait(&mut q);
             }
 
-            q.pop_front().unwrap()
+            q.pop().unwrap()
             // unlock here
         };
 

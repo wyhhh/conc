@@ -5,4 +5,7 @@ pub trait BoundedBlockQueue<T> {
     fn enqueue(&self, ele: T);
     fn dequeue(&self) -> T;
     fn len(&self) -> usize;
+	fn is_empty(&self) -> bool {
+		self.len() == 0
+	}
 }
