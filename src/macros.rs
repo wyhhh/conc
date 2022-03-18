@@ -1,4 +1,3 @@
-#[macro_export]
 macro_rules! shared {
     ($($name: ident),+) => {$(
 		#[derive(Default, Debug)]
@@ -7,6 +6,12 @@ macro_rules! shared {
 		impl $name {
 			pub fn new() -> Self {
 				Default::default()
+			}
+		}
+
+		impl Clone for $name {
+			fn clone(&self) -> Self {
+				$name(self.0.clone())
 			}
 		}
 
@@ -20,7 +25,6 @@ macro_rules! shared {
 	)+};
 }
 
-#[macro_export]
 macro_rules! shared_generic {
     ($($name: ident),+) => {$(
 		#[derive(Default, Debug)]
@@ -29,6 +33,12 @@ macro_rules! shared_generic {
 		impl<T: Default> $name<T> {
 			pub fn new() -> Self {
 				Default::default()
+			}
+		}
+
+		impl<T> Clone for $name<T> {
+			fn clone(&self) -> Self {
+				$name(self.0.clone())
 			}
 		}
 
@@ -42,19 +52,17 @@ macro_rules! shared_generic {
 	)+};
 }
 
-pub mod shared{
+pub mod shared {
 	shared!(Sema);
-	shared_generic!(BoundedBlockQ);
+	shared_generic!(BoundedQ, UnboundedQ);
 }
 
 
 #[test]
 fn test() {
-	use crate::BoundedBlockQueue;
+	let q = shared::BoundedQ::new();
 
-	let q = shared::BoundedBlockQ::new();
-
-	q.enqueue(2);
+	q.push(2);
 
 	let q2 = q.clone();
 
