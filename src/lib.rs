@@ -11,4 +11,4 @@ pub use datastructure::queue::unbounded::UnboundedQ;
 pub use sync::sema::Sema;
 pub use macros::shared;
 pub use algorithm::bfs::{Bfs, One2Many};
-pub use datastructure::list::list::SortedList;
+pub use datastructure::list::list::List;

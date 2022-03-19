@@ -41,15 +41,8 @@ impl<T> BoundedQ<T> {
 
         // dropped lock
         drop(q);
-        // because the q has just two state:
-        // => FULL, n enqueue threads are blocking maybe;
-        // => NON-FULL, m dequeue threads are blocking maybe
-        // but, if when at FULL state, the one of dequeue thread
-        // wakeup ALL the other threads, so the all BLOCKING
-        // enqueue threads are awaken. thus, when we call
-        // enqueue, there are likely some threads DEQUEUE blocking,
-        // we just notify one of it will be OK.
-        self.c.notify_one();
+			  
+        self.c.notify_all();
         Ok(())
     }
 
@@ -77,7 +70,6 @@ impl<T> BoundedQ<T> {
         };
         drop(q);
 
-        // here we need notify all
         self.c.notify_all();
 
         Ok(ret)
